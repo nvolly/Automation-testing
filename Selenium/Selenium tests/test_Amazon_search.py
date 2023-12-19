@@ -5,24 +5,31 @@ from selenium.webdriver.common.keys import Keys
 import time
 import pytest
 
-def test_Amazon_search():
-    options = webdriver.ChromeOptions()
-    options.add_experimental_option("detach", True)
-    driver_service = Service(executable_path='D:\python\Automation\Selenium tests\chromedriver.exe')
-    driver = webdriver.Chrome(options=options, service=driver_service)
-    driver.implicitly_wait(5)
+class TestAmazon:
+    search_words = ('dress', 'shoes', 'toys')
 
-    driver.get("https://www.amazon.com/")
-    time.sleep(10)
+    driver = ''
 
-    search = driver.find_element(By.ID, 'twotabsearchtextbox')
-    search.send_keys('dress', Keys.ENTER)
+    def setup_method(self):
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("detach", True)
+        driver_service = Service(executable_path='D:\python\Automation\chromedriver-win64\chromedriver.exe')
+        self.driver = webdriver.Chrome(options=options, service=driver_service)
+        self.driver.implicitly_wait(5)
+        self.driver.get("https://www.amazon.com/")
+        time.sleep(10)
 
-    # $x("//span[@class='a-color-state a-text-bold']")
+    @pytest.mark.parametrize("search_query", search_words)
+    def test_Amazon_search_dress(self, search_query):
+        search = self.driver.find_element(By.ID, 'twotabsearchtextbox')
+        search.send_keys(search_query, Keys.ENTER)
 
-    expected_text = '"dress"'
-    actual_text = driver.find_element(By.XPATH, "//span[@class='a-color-state a-text-bold']").text
+        # $x("//span[@class='a-color-state a-text-bold']")
 
-    assert expected_text == actual_text, f'Error. Expected text: {expected_text}, but actual text: {actual_text}'
+        expected_text = f'\"{search_query}\"' #dress / "dress"
+        actual_text = self.driver.find_element(By.XPATH, "//span[@class='a-color-state a-text-bold']").text
 
-    driver.quit()
+        assert expected_text == actual_text, f'Error. Expected text: {expected_text}, but actual text: {actual_text}'
+
+    def teardown_method(self):
+        self.driver.quit()
