@@ -13,7 +13,7 @@ class TestAmazon:
     def setup_method(self):
         options = webdriver.ChromeOptions()
         options.add_experimental_option("detach", True)
-        driver_service = Service(executable_path='D:\python\Automation\chromedriver-win64\chromedriver.exe')
+        driver_service = Service(executable_path='D:\Automation python\Automation\Selenium\chromedriver.exe')
         self.driver = webdriver.Chrome(options=options, service=driver_service)
         self.driver.implicitly_wait(5)
         self.driver.get("https://www.amazon.com/")

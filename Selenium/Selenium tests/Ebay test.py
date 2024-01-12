@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
-driver_service = Service(executable_path='D:\python\Automation\Selenium tests\chromedriver.exe')
+driver_service = Service(executable_path='D:\Automation python\Automation\Selenium\chromedriver.exe')
 driver = webdriver.Chrome(options=options, service=driver_service)
 driver.implicitly_wait(5)
 
