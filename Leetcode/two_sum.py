@@ -13,3 +13,5 @@ class Solution(object):
                 return [seen_indices[complement], i]
             seen_indices[num] = i
         return None
+
+print("two_sum.py: ", __name__)
